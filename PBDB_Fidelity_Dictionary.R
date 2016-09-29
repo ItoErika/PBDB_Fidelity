@@ -96,6 +96,8 @@ Members<-unique(DF2[,"unit"])
 DuplicatedMembers<-sapply(Members, function(x) paste(rep(x,length(MembersDictionary)),MembersDictionary))
 # Rotate matrix
 Members<-t(DuplicatedMembers)
+# Make a column of unit in caps
+Members[,ncol(Members)]<-toupper(Members[,ncol(Members)])
 
 
 # For the formation matrix:
@@ -107,6 +109,8 @@ Formations<-unique(DF3[,"unit"])
 DuplicatedFormations<-sapply(Formations, function(x) paste(rep(x,length(FormationsDictionary)),FormationsDictionary))
 # Rotate matrix
 Formations<-t(DuplicatedFormations)
+# Make a column of unit in caps
+Formations[,ncol(Formations)]<-toupper(Formations[,ncol(Formations)])
 
 # For the group matrix: 
 # First create a dictionary of abbreviations and group titles
@@ -117,13 +121,21 @@ Groups<-unique(DF4[,"unit"])
 DuplicatedGroups<-sapply(Groups, function(x) paste(rep(x,length(GroupsDictionary)),GroupsDictionary))
 # Rotate matrix
 Groups<-t(DuplicatedGroups)
+# Make a column of unit in caps
+Groups[,ncol(Groups)]<-toupper(Groups[,ncol(Groups)])
 
 # For the supergroup matrix:
 # First create a dictionary of abbreviations and supergroup titles
-SupergroupsDictionary<-c("sprGrp","SprGrp","sprgrp","spgrp","SpGrp","spGrp","spgp","sGp","SGp","supergroup","Supergroup","SuperGroup")
+SupergroupsDictionary<-c("sprGrp","SprGrp","sprgrp","spgrp","SpGrp","spGrp","spgp","sGp","SGp","supergroup","Supergroup","SuperGroup","SUPERGROUP")
 # Create a list of unique supergroup names 
 Supergroups<-unique(DF5[,"unit"])
 #Duplicate the supergroup names so each word in SupergroupsDictionary is paired with each name 
 DuplicatedSupergroups<-sapply(Supergroups, function(x) paste(rep(x,length(SupergroupsDictionary)),SupergroupsDictionary))
 # Rotate matrix
 Supergroups<-t(DuplicatedSupergroups)
+# Make a column of unit in caps
+Supergroups[,ncol(Supergroups)]<-toupper(Supergroups[,ncol(Supergroups)])
+ 
+    
+# Create a dictionary of all Formation, Member, Group, And Supergroup combinations created above.    
+UnitDictionary<-c(unlist(Members), unlist(Formations),unlist(Groups),unlist(Supergroups))
