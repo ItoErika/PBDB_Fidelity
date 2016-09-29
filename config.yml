@@ -26,7 +26,6 @@ frequency: once
 dictionaries: PBDB and Macrostrat units
 
 # A list of terms used to subset the corpus
-terms: https://raw.githubusercontent.com/ItoErika/PBDB_Fidelity/master/PBDB_Fidelity_Units_Dictionary.csv
 
 # should the list of terms be case-sensitive?
 case-sensitive: true
