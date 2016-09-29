@@ -1,22 +1,21 @@
 # The name of the application (no spaces)
-app_name: stringed_instruments
+app_name: PBDB_Fidelity
 
 # A brief description of the app.
-description : Find all the proper nouns which have adjectives modifying them. Dump the nouns and the adjectives into a text file.
-
+description : Identifying fossiliferous stratigraphic units not identified as fossiliferous according to the paleobiology database.
 # Your first and last name
-user: Example User
+user: Erika Ito
 
 # Your email
-email: example.user@geodeepdive.org
+email: erika.ito@outlook.com
 
 # The primary language the application is written in - will be used for installing dependencies
 # Current options are Python, R, and Go
-language: Python
+language: R
 
 # You can choose to specify a list of dictionaries, a list of terms, or both.
 # If both dictionaries and terms are provided, all terms in the dictionary PLUS
 # all listed terms will be used
-dictionaries: [instruments]
+dictionaries: PBDB and Macrostrat units
 
-terms: [theremin]
+terms: https://raw.githubusercontent.com/ItoErika/PBDB_Fidelity/master/PBDB_Fidelity_Units_Dictionary.csv
