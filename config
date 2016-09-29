@@ -1,20 +1,23 @@
 # The name of the application (no spaces)
-app_name: stringed_instruments
+app_name: PBDB_Fidelity
 
 # A brief description of the app.
-description : Find all the proper nouns which have adjectives modifying them. Dump the nouns and the adjectives into a text file.
+description : Identifying fossiliferous stratigraphic units not identified as fossiliferous according to the paleobiology database.
 
 # First and last name of the user
-user: Example User
+user: Erika Ito
 
 # The NLP product to run the application against (NLP, NLP352, OCR, Cuneiform -- see input/README for more info)
-product: NLP352
+product: NLP352, docid_terms
 
 # How often the application should be run
-frequency: weekly
+frequency: once
+
+# Limit search to documents pre-indexed to the following existing dictionaries.
+existing_dictionaries: paleobiology database, macrostrat unit names
 
 # A list of terms used to subset the corpus
-terms: [banjo, guitar, violin, viola, piano, cello]
+terms: https://raw.githubusercontent.com/ItoErika/PBDB_Fidelity/master/PBDB_Fidelity_Units_Dictionary.csv
 
 # should the list of terms be case-sensitive?
-case-sensitive: false
+case-sensitive: true
