@@ -6,6 +6,7 @@ UnitsURL<-paste("https://macrostrat.org/api/units?lith_class=sedimentary&environ
 GotURL<-getURL(UnitsURL)
 UnitsFrame<-read.csv(text=GotURL,header=TRUE)
 
+# Subset UnitsFrame to extract only units that are identified as unfossiliferous in PBDB
 NoPBDB<-subset(UnitsFrame, UnitsFrame[,"pbdb_collections"]==0)
 
 # Extract columns from UnitsFrame to make a dataframe of macrostrat unit names and untitIDs
