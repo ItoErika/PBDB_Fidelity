@@ -3,6 +3,7 @@ app_name: PBDB_Fidelity
 
 # A brief description of the app.
 description : Identifying fossiliferous stratigraphic units not identified as fossiliferous according to the paleobiology database.
+
 # Your first and last name
 user: Erika Ito
 
