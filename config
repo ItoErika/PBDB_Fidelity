@@ -8,7 +8,7 @@ description : Identifying fossiliferous stratigraphic units not identified as fo
 user: Erika Ito
 
 # The NLP product to run the application against (NLP, NLP352, OCR, Cuneiform -- see input/README for more info)
-product: NLP352, docid_terms
+product: NLP352, key_value_pairs_where_key_is_docid_and_value_is_the_term_that_matches_within_that_document
 
 # How often the application should be run
 frequency: once
