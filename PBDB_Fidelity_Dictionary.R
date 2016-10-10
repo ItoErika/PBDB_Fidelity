@@ -1,5 +1,7 @@
 # Load Libraries 
-library(RCurl)
+library("RCurl")
+library("doParallel")
+library("data.table")
 
 # Download dictionary of unit names from Macrostrat Database
 UnitsURL<-paste("https://macrostrat.org/api/units?lith_class=sedimentary&environ_class=marine&project_id=1&response=long&format=csv")
