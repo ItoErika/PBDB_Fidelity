@@ -71,6 +71,8 @@ CleanedWords<-gsub(","," ",DeepDiveData[,"words"])
 
 ##################### Eliminate sentences in which more than one unit names appears ###########################
 
+# Eliminate elements/unit names in UnitHits with no matches
+
 # Create a vector of the number of unit hits for each respective unit name in DeepDiveData
 UnitHitsLength<-pbsapply(UnitHits,length)
 # Create a vector of unit names, such that each name is repeated by its number of hits in DeepDiveData
@@ -95,7 +97,15 @@ SingleHitData<-subset(UnitHitData,UnitHitData[,"MatchLocation"]%in%SingleHits==T
 
 ################################ Eliminate sentences that are more than 350 characters long ###############################
 
-
+# Create a column of sentences from CleanedWords and bind it to SingleHitData
+UnitSentences<-CleanedWords[SingleHitData[,"MatchLocation"]]
+SingleHitData<-cbind(SingleHitData,UnitSentences)
+# Find the character length for each character string in UnitSentences
+Chars<-sapply(SingleHitData[,"UnitSentences"], function (x) nchar(as.character(x)))
+# bind the number of characters for each sentence to SingleHitData
+SingleHitData<-cbind(SingleHitData,Chars)
+# Locate the rows which have CleanedWords sentences with less than or equal to 350 characters
+ShortSents<-which(SingleHitData[,"Chars"]<=350)
 
 
 
