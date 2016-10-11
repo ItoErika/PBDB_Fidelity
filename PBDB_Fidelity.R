@@ -27,3 +27,7 @@ Cluster<-makeCluster(4)
 Start<-print(Sys.time())
 UnitHits<-parSapply(Cluster,UnitDictionary,function(x,y) grep(x,y,ignore.case=FALSE, perl = TRUE),CleanedWords)
 End<-print(Sys.time())
+  
+stopCluster(Cluster)
+
+
