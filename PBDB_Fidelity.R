@@ -61,7 +61,7 @@ UnitDictionary<-CandidateUnits[,"unit"]
 # Remove commas from DeepDiveData to prepare to run grep function
 CleanedWords<-gsub(","," ",DeepDiveData[,"words"])
 
-# Cluster<-makeCluster(4)
+# Cluster<-makeCluster(3)
 
 # Start<-print(Sys.time())
 # UnitHits<-parSapply(Cluster,UnitDictionary,function(x,y) grep(x,y,ignore.case=FALSE, perl = TRUE),CleanedWords)
