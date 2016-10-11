@@ -1,5 +1,6 @@
 # Load Libraries 
 library("RCurl")
+library("pbapply")
 library("doParallel")
 library("data.table")
 # library("RPostgreSQL")
@@ -67,6 +68,33 @@ CleanedWords<-gsub(","," ",DeepDiveData[,"words"])
 # End<-print(Sys.time())
   
 # stopCluster(Cluster)
+
+##################### Eliminate sentences in which more than one unit names appears ###########################
+
+# Create a vector of the number of unit hits for each respective unit name in DeepDiveData
+UnitHitsLength<-pbsapply(UnitHits,length)
+# Create a vector of unit names, such that each name is repeated by its number of hits in DeepDiveData
+UnitHitNames<-rep(names(UnitHits),times=UnitHitsLength)
+# Bind the unit name column to the corresponding row location for the match
+UnitHitData<-cbind(UnitHitNames,unlist(UnitHits))
+# convert matrix to data frame
+UnitHitData<-as.data.frame(UnitHitData)
+# Name column denoting row locations within Cleaned Words
+colnames(UnitHitData)[2]<-"MatchLocation"
+# Make sure the column data is numerical
+UnitHitData[,"MatchLocation"]<-as.numeric(as.character(UnitHitData[,"MatchLocation"]))
+
+# Make a table showing the number of unit names which occur in each DeeoDiveData row that we know has at least one unit match
+RowHitsTable<-table(UnitHitData[,"MatchLocation"])
+# Locate and extract rows which contain only one long unit
+# Remember that the names of RowHitsTable correspond to rows within CleanedWords
+SingleHits<-as.numeric(names(RowHitsTable)[which((RowHitsTable)==1)])    
+
+# Subset UnitHitData to get dataframe of Cleaned Words rows and associated single hit long unit names
+SingleHitData<-subset(UnitHitData,UnitHitData[,"MatchLocation"]%in%SingleHits==TRUE)    
+
+################################ Eliminate sentences that are more than 350 characters long ###############################
+
 
 
 
