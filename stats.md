@@ -17,3 +17,8 @@
 31,175
 ````
 #### Number of unit name hits in DeepDiveData after removing sentences which contain more than one unit name:
+
+`length(SingleHitData[,"MatchLocation"])`
+````R
+25,648
+````
