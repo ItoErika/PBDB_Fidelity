@@ -18,9 +18,57 @@ library("data.table")
 DeepDiveData<- fread("~/Documents/DeepDive/PBDB_Fidelity/R/DeepDiveData.csv")
 DeepDiveData<-as.data.frame(DeepDiveData)
 
-# Load previously run command outputs
-UnitHits<-readRDS("~/Documents/DeepDive/PBDB_Fidelity/R/UnitHits.rds")
+# Load strat-name dictionary and docid tuples from GeoDeepDive
+DocUnitTuples<-fread("~/Documents/DeepDive/PBDB_Fidelity/strat_pbdb_overlap 2/strat_overlap_doc_terms",header=FALSE)
+DocUnitTuples<-as.matrix(DocUnitTuples)
+# Assign column names to DocUnitTuples matrix
+colnames(DocUnitTuples)[1]<-"docid"
+colnames(DocUnitTuples)[2]<-"unit"
 
+# Download dictionary of unit names from Macrostrat Database
+UnitsURL<-paste("https://macrostrat.org/api/units?lith_class=sedimentary&environ_class=marine&project_id=1&response=long&format=csv")
+GotURL<-getURL(UnitsURL)
+UnitsFrame<-read.csv(text=GotURL,header=TRUE)
+# Subset UnitsFrame to extract only units that are identified as unfossiliferous in PBDB
+NoPBDB<-subset(UnitsFrame, UnitsFrame[,"pbdb_collections"]==0)
+
+# Make a list of units that are unfossiliferous according to PBDB
+CandidateUnits<-as.character(unique(NoPBDB[,"strat_name_long"]))
+CandidateUnits<-CandidateUnits[which(sapply(CandidateUnits,nchar)>0)]
+
+# Subset the DocUnitTuples to only CandidateUnits
+SubsetTuples<-subset(DocUnitTuples,DocUnitTuples[,"unit"]%in%CandidateUnits==TRUE) # Goes from 351024 to 128426
+
+# Subset DeepDiveData 
+SubsetDeepDive<-subset(DeepDiveData,DeepDiveData[,"docid"]%in%unique(SubsetTuples[,"docid"])==TRUE) # Goes from 5.9 to 3.2 million sentences
+
+# Clean up syntaxical, grammatical, and typographical issues in the words column of DeepDiveData
+SubsetDeepDive[,"words"]<-gsub("\\{|\\}","",SubsetDeepDive[,"words"])
+SubsetDeepDive[,"poses"]<-gsub("\\{|\\}","",SubsetDeepDive[,"poses"])
+# Make a substitute for commas so they are counted correctly as elements for future functions
+SubsetDeepDive[,"words"]<-gsub("\",\"","COMMASUB",SubsetDeepDive[,"words"])
+SubsetDeepDive[,"poses"]<-gsub("\",\"","COMMASUB",SubsetDeepDive[,"poses"])
+# Remove commas from DeepDiveData to prepare to run grep function
+CleanedWords<-gsub(","," ",SubsetDeepDive[,"words"])
+
+# Start a cluster for multicore
+Cluster<-makeCluster(3)
+
+# Record start time
+Start<-print(Sys.time())
+# Apply grep to cleaned words
+UnitHits<-parSapply(Cluster,CandidateUnits,function(x,y) grep(x,y,ignore.case=FALSE, perl = TRUE),CleanedWords)
+# Record end time
+End<-print(Sys.time())
+# Find total runtime
+End-Start
+
+# Stop the cluster so the computer does not kill itself in anger and self loathing.  
+stopCluster(Cluster)
+
+# Debugging pause
+  
+  
 # Extract columns of interest from DeepDiveData
 DeepDiveData<-DeepDiveData[,c("docid","sentid","wordidx","words","poses","dep_parents")]
 
@@ -31,35 +79,9 @@ DeepDiveData[,"poses"]<-gsub("\\{|\\}","",DeepDiveData[,"poses"])
 DeepDiveData[,"words"]<-gsub("\",\"","COMMASUB",DeepDiveData[,"words"])
 DeepDiveData[,"poses"]<-gsub("\",\"","COMMASUB",DeepDiveData[,"poses"])
 
-# Download dictionary of unit names from Macrostrat Database
-UnitsURL<-paste("https://macrostrat.org/api/units?lith_class=sedimentary&environ_class=marine&project_id=1&response=long&format=csv")
-GotURL<-getURL(UnitsURL)
-UnitsFrame<-read.csv(text=GotURL,header=TRUE)
-
-# Subset UnitsFrame to extract only units that are identified as unfossiliferous in PBDB
-NoPBDB<-subset(UnitsFrame, UnitsFrame[,"pbdb_collections"]==0)
-
-DocUnitTuples<-fread("~/Documents/DeepDive/PBDB_Fidelity/strat_pbdb_overlap 2/strat_overlap_doc_terms",header=FALSE)
-DocUnitTuples<-as.matrix(DocUnitTuples)
-# Assign column names to DocUnitTuples matrix
-colnames(DocUnitTuples)[1]<-"docid"
-colnames(DocUnitTuples)[2]<-"unit"
-
-# Make a list of units that are unfossiliferous according to PBDB
-CandidateUnits<-unique(NoPBDB[,"strat_name_long"])
-
-# Subset those units to the ones we have matches for in the DeepDiveData documents
-CandidateUnits<-subset(DocUnitTuples,DocUnitTuples[,"unit"]%in%as.character(CandidateUnits)==TRUE)
-DeepDiveData<-as.data.frame(DeepDiveData,stringsAsFactors=FALSE)
-
-# Subset DeepDiveData to only documents which contain candidate units
-DeepDiveData<-subset(DeepDiveData,DeepDiveData[,"docid"]%in%CandidateUnits[,"docid"]==TRUE)
 
 # Make a dictionary of candidate unit names
 UnitDictionary<-CandidateUnits[,"unit"]
-
-# Remove commas from DeepDiveData to prepare to run grep function
-CleanedWords<-gsub(","," ",DeepDiveData[,"words"])
 
 # Cluster<-makeCluster(3)
 
@@ -68,6 +90,12 @@ CleanedWords<-gsub(","," ",DeepDiveData[,"words"])
 # End<-print(Sys.time())
   
 # stopCluster(Cluster)
+
+# Save UnitHits to a folder
+# saveRDS(UnitHits,file="~/Documents/DeepDive/PBDB_Fidelity/R/UnitHits.rds")
+
+# Load UnitHits
+UnitHits<-readRDS("~/Documents/DeepDive/PBDB_Fidelity/R/UnitHits.rds")
 
 ##################### Eliminate sentences in which more than one unit names appears ###########################
 
