@@ -136,4 +136,12 @@ SingleHitData<-cbind(SingleHitData,Chars)
 ShortSents<-which(SingleHitData[,"Chars"]<=350)
 SingleHitsCut<-SingleHitData[ShortSents,]
 
+############################### Search for words indicating fossil occurrences in units ################################
+  
+grep(" fossiliferous",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE)
+grep("fossils",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE)
+
+
+unique(SingleHitsCut[grep(" fossiliferous",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE),"UnitHitNames"])
+unique(SingleHitsCut[grep("fossils",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE),"UnitHitNames"])
 
