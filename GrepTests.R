@@ -24,9 +24,6 @@ End-Start
   
 stopCluster(Cluster)
 
-
-
-
   
 grepFunction<-function(CandidateUnits=CandidateUnits[1:50],CleanedWords=CleanedWords[1:10000],Word1="the"){
   Hits<-grep(CandidateUnits,CleanedWords, ignore.case=FALSE, perl=TRUE)
