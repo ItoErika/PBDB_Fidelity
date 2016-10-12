@@ -5,17 +5,18 @@ library("doParallel")
 library("data.table")
 
 Cluster<-makeCluster(3)
+clusterExport(cl=Cluster,varlist=c("grepFunction","greplFunction","greplFixed","greplPerl","greplPatternsPerl","greplPatternsFixed"))
 
 # Record start time
 Start<-print(Sys.time())
 # Apply grep to cleaned words
 benchmark(
-parSapply(CandidateUnits[1:50], grepFunction, CleanedWords[1:10000], Word1="fossiliferous"),
-parSapply(CandidateUnits[1:50], greplFunction, CleanedWords[1:10000], Word1="fossiliferous"),
-parSapply(CandidateUnits[1:50], greplFixed, CleanedWords[1:10000],Word1="fossiliferous"),
-parSapply(CandidateUnits[1:50], greplPerl,CleanedWords[1:10000], Word1="fossiliferous"),
-parSapply(CandidateUnits[1:50], greplPatternsPerl, CleanedWords[1:10000],Word1="fossiliferous"),
-parSapply(CandidateUnits[1:50], greplPatternsFixed, CleanedWords[1:10000], Word1="fossiliferous"),
+parSapply(Cluster, CandidateUnits[1:50], grepFunction, CleanedWords[1:10000], Word1="fossiliferous"),
+parSapply(Cluster, CandidateUnits[1:50], greplFunction, CleanedWords[1:10000], Word1="fossiliferous"),
+parSapply(Cluster, CandidateUnits[1:50], greplFixed, CleanedWords[1:10000],Word1="fossiliferous"),
+parSapply(Cluster, CandidateUnits[1:50], greplPerl,CleanedWords[1:10000], Word1="fossiliferous"),
+parSapply(Cluster, CandidateUnits[1:50], greplPatternsPerl, CleanedWords[1:10000],Word1="fossiliferous"),
+parSapply(Cluster, CandidateUnits[1:50], greplPatternsFixed, CleanedWords[1:10000], Word1="fossiliferous"),
 replications=100)
 # Record end time
 End<-print(Sys.time())
@@ -32,7 +33,7 @@ grepFunction<-function(x,y,Word1="fossiliferous"){
   Hits<-grep(x,y, ignore.case=FALSE, perl=TRUE)
   MatchUnits<-names(Hits[which(sapply(Hits,length)>0)])
   SubsetHits<-Hits[MatchUnits]
-  SubsetWords<-CleanedWords[unlist(SubsetHits)]                  
+  SubsetWords<-y[unlist(SubsetHits)]                  
   Hits2<-grep(Word1,SubsetWords, ignore.case=FALSE, perl=TRUE)
   return(Hits2) 
   }
@@ -50,7 +51,7 @@ greplFunction<-function(x,y,Word1="fossiliferous"){
     MatchMatrix<-HitMatrix[TrueLocation,]
     MatchFrame<-as.data.frame(MatchMatrix)
     MatchFrame[,"RepRowsVector"]<-as.numeric(as.character(MatchFrame[,"RepRowsVector"]))
-    SubsetWords<-CleanedWords[MatchFrame[,"RepRowsVector"]]
+    SubsetWords<-y[MatchFrame[,"RepRowsVector"]]
     Hits2<-grepl(Word1,SubsetWords, ignore.case=FALSE, perl=TRUE)
     return(Hits2)
     }
@@ -68,7 +69,7 @@ greplFixed<-function(x,y,Word1="fossiliferous"){
     MatchMatrix<-HitMatrix[TrueLocation,]
     MatchFrame<-as.data.frame(MatchMatrix)
     MatchFrame[,"RepRowsVector"]<-as.numeric(as.character(MatchFrame[,"RepRowsVector"]))
-    SubsetWords<-CleanedWords[MatchFrame[,"RepRowsVector"]]
+    SubsetWords<-y[MatchFrame[,"RepRowsVector"]]
     Hits2<-grepl(Word1,SubsetWords, ignore.case=FALSE, fixed=TRUE)
     return(Hits2)
     }
@@ -86,7 +87,7 @@ greplPerl<-function(x,y,Word1="fossiliferous"){
     MatchMatrix<-HitMatrix[TrueLocation,]
     MatchFrame<-as.data.frame(MatchMatrix)
     MatchFrame[,"RepRowsVector"]<-as.numeric(as.character(MatchFrame[,"RepRowsVector"]))
-    SubsetWords<-CleanedWords[MatchFrame[,"RepRowsVector"]]
+    SubsetWords<-y[MatchFrame[,"RepRowsVector"]]
     Hits2<-grepl(Word1,SubsetWords, ignore.case=FALSE, perl=TRUE)
     return(Hits2)
     }
