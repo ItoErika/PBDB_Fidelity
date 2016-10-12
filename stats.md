@@ -10,15 +10,22 @@
 4,753
 ````
 
-#### Initial number of document unit name hits in DeepDiveData that are marine and sedimentary according to macrostrat, and unfossiliferous according to PBDB:
+#### Initial number of document unit name hits in SubsetDeepDive that are marine and sedimentary according to macrostrat, and unfossiliferous according to PBDB:
 
 `length(unlist(UnitHits))`
 ````R
 31,175
 ````
-#### Number of unit name hits in DeepDiveData after removing sentences which contain more than one unit name:
+#### Number of unit name hits in SubsetDeepDive after removing sentences which contain more than one unit name:
 
 `length(SingleHitData[,"MatchLocation"])`
 ````R
 25,648
+````
+
+#### Number of unit name hits in SubsetDeepDive after removing sentences comprised of more than 350 characters:
+
+`length(ShortSents)`
+````R
+22,400
 ````
