@@ -134,6 +134,6 @@ Chars<-sapply(SingleHitData[,"UnitSentences"], function (x) nchar(as.character(x
 SingleHitData<-cbind(SingleHitData,Chars)
 # Locate the rows which have CleanedWords sentences with less than or equal to 350 characters
 ShortSents<-which(SingleHitData[,"Chars"]<=350)
-
+SingleHitsCut<-SingleHitData[ShortSents,]
 
 
