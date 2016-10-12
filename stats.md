@@ -5,7 +5,7 @@
 ````
 
 #### Number of documents after subsetting DeepDiveData to only documents that contain sedimentary, marine units with no fossils according to PBDB
-`length((unique(DeepDiveData[,"docid"])))`
+`length((unique(SubsetDeepDive[,"docid"])))`
 ````R
 4753
 ````
