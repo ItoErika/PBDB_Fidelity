@@ -24,6 +24,13 @@ End-Start
   
 stopCluster(Cluster)
 
+#                                                                                           test replications elapsed relative user.self sys.self user.child sys.child
+# 1              sapply(CandidateUnits[1:50], grepFunction, CleanedWords[1:10000], Word1 = "the")          100  39.485    1.000    30.147    0.467          0         0
+# 3 sapply(CandidateUnits[1:50], greplFixed, CleanedWords = CleanedWords[1:10000], Word1 = "the")          100  43.052    1.090    35.624    0.310          0         0
+# 5        sapply(CandidateUnits[1:50], greplPatternsFixed, CleanedWords[1:10000], Word1 = "the")          100  71.095    1.801    69.726    0.666          0         0
+# 4         sapply(CandidateUnits[1:50], greplPatternsPerl, CleanedWords[1:10000], Word1 = "the")          100  77.124    1.953    65.952    0.915          0         0
+# 2  sapply(CandidateUnits[1:50], greplPerl, CleanedWords = CleanedWords[1:10000], Word1 = "the")          100  42.580    1.078    30.804    0.665          0         0
+
   
 grepFunction<-function(CandidateUnits=CandidateUnits[1:50],CleanedWords=CleanedWords[1:10000],Word1="the"){
   Hits<-grep(CandidateUnits,CleanedWords, ignore.case=FALSE, perl=TRUE)
