@@ -25,7 +25,7 @@
 
 #### Number of unit name hits in SubsetDeepDive after removing sentences comprised of more than 350 characters:
 
-`length(ShortSents)`
+`length(SingleHitsCut[,"MatchLocation"])`
 ````R
 22,400
 ````
