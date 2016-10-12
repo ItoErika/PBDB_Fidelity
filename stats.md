@@ -14,6 +14,6 @@
 
 `length(unlist(UnitHits))`
 ````R
-5,463,283
+31175
 ````
 #### Number of unit name hits in DeepDiveData after removing sentences which contain more than one unit name:
