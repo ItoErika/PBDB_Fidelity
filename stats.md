@@ -43,7 +43,7 @@
 25,648
 ````
 
-#### Number of unique unit names which appear alone (with no other unit) in a sentence:
+#### Number of unique unit names which appear alone (with no other unit) in a sentence in SubsetDeepDive:
 `length(unique(SingleHitData[,"UnitNames"]))`
 ````R
 1,723
@@ -55,7 +55,7 @@
 22,400
 ````
 
-#### Number of unique unit names which appear in alone (with no other unit) in a sentence under 350 characters in length: 
+#### Number of unique unit names which appear in alone (with no other unit) in a SubsetDeepDive sentence under 350 characters in length: 
 `length(unique(SingleHitsCut[,"UnitNames"]))`
 ````R
 1,662
