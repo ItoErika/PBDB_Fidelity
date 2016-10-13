@@ -24,14 +24,15 @@
 ````
 #### Number of rows (sentences) with unit name hits in SubsetDeepDive after removing sentences which contain more than one unit name:
 
-`length(SingleHitData[,"MatchLocation"])`
+`nrow(SingleHitData)`
 ````R
 25,648
 ````
 
 #### Number of rows (sentences) with unit name hits in SubsetDeepDive after removing sentences comprised of more than 350 characters:
 
-`length(SingleHitsCut[,"MatchLocation"])`
+`nrow(SingleHitsCut)
+`
 ````R
 22,400
 ````
