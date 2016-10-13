@@ -67,7 +67,7 @@
 759
 ````
 
-#### Number of unique units which appear in rows (sentences) of SingleHitscut alone (with no other unit), and in the same sentence as the word "fossil" or "fossiliferous":
+#### Number of unique units which appear in a row (sentence) of SingleHitscut uncer 350 characters in length, alone (with no other unit), and in the same sentence as the word "fossil" or "fossiliferous":
 `length(unique(FossilData[,"UnitNames"]))`
 ````R
 242
