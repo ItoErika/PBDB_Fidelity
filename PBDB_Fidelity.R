@@ -48,47 +48,24 @@ SubsetDeepDive[,"poses"]<-gsub("\\{|\\}","",SubsetDeepDive[,"poses"])
 # Make a substitute for commas so they are counted correctly as elements for future functions
 SubsetDeepDive[,"words"]<-gsub("\",\"","COMMASUB",SubsetDeepDive[,"words"])
 SubsetDeepDive[,"poses"]<-gsub("\",\"","COMMASUB",SubsetDeepDive[,"poses"])
+# Extract columns of interest from DeepDiveData
+DeepDiveData<-DeepDiveData[,c("docid","sentid","wordidx","words","poses","dep_parents")]
 # Remove commas from DeepDiveData to prepare to run grep function
 CleanedWords<-gsub(","," ",SubsetDeepDive[,"words"])
 
 # Start a cluster for multicore
-Cluster<-makeCluster(3)
-
-# Record start time
-Start<-print(Sys.time())
-# Apply grep to cleaned words
-UnitHits<-parSapply(Cluster,CandidateUnits,function(x,y) grep(x,y,ignore.case=FALSE, perl = TRUE),CleanedWords)
-# Record end time
-End<-print(Sys.time())
-# Find total runtime
-End-Start
-
-# Stop the cluster so the computer does not kill itself in anger and self loathing.  
-stopCluster(Cluster)
-
-# Debugging pause
-  
-  
-# Extract columns of interest from DeepDiveData
-DeepDiveData<-DeepDiveData[,c("docid","sentid","wordidx","words","poses","dep_parents")]
-
-# Remove symbols 
-DeepDiveData[,"words"]<-gsub("\\{|\\}","",DeepDiveData[,"words"])
-DeepDiveData[,"poses"]<-gsub("\\{|\\}","",DeepDiveData[,"poses"])
-# Make a substitute for commas so they are counted correctly as elements for future functions
-DeepDiveData[,"words"]<-gsub("\",\"","COMMASUB",DeepDiveData[,"words"])
-DeepDiveData[,"poses"]<-gsub("\",\"","COMMASUB",DeepDiveData[,"poses"])
-
-
-# Make a dictionary of candidate unit names
-UnitDictionary<-CandidateUnits[,"unit"]
-
 # Cluster<-makeCluster(3)
 
+# Record start time
 # Start<-print(Sys.time())
-# UnitHits<-parSapply(Cluster,UnitDictionary,function(x,y) grep(x,y,ignore.case=FALSE, perl = TRUE),CleanedWords)
+# Apply grep to cleaned words
+# UnitHits<-parSapply(Cluster,CandidateUnits,function(x,y) grep(x,y,ignore.case=FALSE, perl = TRUE),CleanedWords)
+# Record end time
 # End<-print(Sys.time())
-  
+# Find total runtime
+# End-Start
+
+# Stop the cluster so the computer does not kill itself in anger and self loathing.  
 # stopCluster(Cluster)
 
 # Save UnitHits to a folder
@@ -132,16 +109,28 @@ SingleHitData<-cbind(SingleHitData,UnitSentences)
 Chars<-sapply(SingleHitData[,"UnitSentences"], function (x) nchar(as.character(x)))
 # bind the number of characters for each sentence to SingleHitData
 SingleHitData<-cbind(SingleHitData,Chars)
-# Locate the rows which have CleanedWords sentences with less than or equal to 350 characters
+# Locate the rows which have SingleHitData sentences with less than or equal to 350 characters
 ShortSents<-which(SingleHitData[,"Chars"]<=350)
 SingleHitsCut<-SingleHitData[ShortSents,]
 
 ############################### Search for words indicating fossil occurrences in units ################################
-  
-grep(" fossiliferous",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE)
-grep("fossils",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE)
 
+# Search for the word "fossiliferous" in SingleHitsCut sentences 
+# NOTE: add space in front of "fossiliferous" in grep search so "unfossiliferous" is not returned as a match
+FossiliferousHits<-grep(" fossiliferous",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE)
+# Search for the word "fossils" in SingleHitsCut sentences
+FossilsHits<-grep("fossils",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE)
 
+# Remove the overlap sentences between FossilsHits and FossiliferousHits
+# Remove rows in FossilslHits which also appear in FossiliferousHits
+FossilsHits<-FossilsHits[which(!(FossilsHits%in%FossiliferousHits)==TRUE)]
+# Remove rows in FossiliferousHits which also appear in FossilsHits
+FossiliferousHits<-FossiliferousHits[which(!(FossiliferousHits%in%FossilsHits)==TRUE)]
+# Combine FossilsHits and FossiliferousHits into a single vector
+FossilSentences<-c(FossilsHits,FossiliferousHits)
+
+# Subset SingleHitsCut to only rows with fossil sentences
+FossilData<-SingleHitsCut[FossilSentences,]
 unique(SingleHitsCut[grep(" fossiliferous",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE),"UnitHitNames"])
 unique(SingleHitsCut[grep("fossils",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE),"UnitHitNames"])
 
