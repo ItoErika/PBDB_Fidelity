@@ -1,0 +1,5 @@
+# Take a random sample of 100 FossilData Rows to check accuracy
+SampleData<-FossilData[sample(c(1:nrow(FossilData)),100,replace=FALSE,prob=NULL),]
+# Save SampleData to a folder
+write.csv(SampleData,file="~/Documents/DeepDive/PBDB_Fidelity/R/SampleFrame.csv",row.names=FALSE)
+# Open the csv in excel or libre office and perform a manual accuracy test
