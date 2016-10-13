@@ -74,16 +74,16 @@ CleanedWords<-gsub(","," ",SubsetDeepDive[,"words"])
 # Load UnitHits
 UnitHits<-readRDS("~/Documents/DeepDive/PBDB_Fidelity/R/UnitHits.rds")
 
-##################### Eliminate sentences in which more than one unit names appears ###########################
-
+##################### Eliminate in which more than one unit names appears ###########################
+# CHANGE THIS TO SEARCH FOR ALL MACROSTRAT LONG UNIT NAMES 
 # Eliminate elements/unit names in UnitHits with no matches
 
 # Create a vector of the number of unit hits for each respective unit name in DeepDiveData
 UnitHitsLength<-pbsapply(UnitHits,length)
 # Create a vector of unit names, such that each name is repeated by its number of hits in DeepDiveData
-UnitHitNames<-rep(names(UnitHits),times=UnitHitsLength)
+UnitNames<-rep(names(UnitHits),times=UnitHitsLength)
 # Bind the unit name column to the corresponding row location for the match
-UnitHitData<-cbind(UnitHitNames,unlist(UnitHits))
+UnitHitData<-cbind(UnitNames,unlist(UnitHits))
 # convert matrix to data frame
 UnitHitData<-as.data.frame(UnitHitData)
 # Name column denoting row locations within Cleaned Words
@@ -100,13 +100,13 @@ SingleHits<-as.numeric(names(RowHitsTable)[which((RowHitsTable)==1)])
 # Subset UnitHitData to get dataframe of Cleaned Words rows and associated single hit long unit names
 SingleHitData<-subset(UnitHitData,UnitHitData[,"MatchLocation"]%in%SingleHits==TRUE)    
 
-################################ Eliminate sentences that are more than 350 characters long ###############################
+################################ Eliminate that are more than 350 characters long ###############################
 
 # Create a column of sentences from CleanedWords and bind it to SingleHitData
-UnitSentences<-CleanedWords[SingleHitData[,"MatchLocation"]]
-SingleHitData<-cbind(SingleHitData,UnitSentences)
-# Find the character length for each character string in UnitSentences
-Chars<-sapply(SingleHitData[,"UnitSentences"], function (x) nchar(as.character(x)))
+Sentences<-CleanedWords[SingleHitData[,"MatchLocation"]]
+SingleHitData<-cbind(SingleHitData,Sentences)
+# Find the character length for each character string in Sentences
+Chars<-sapply(SingleHitData[,"Sentences"], function (x) nchar(as.character(x)))
 # bind the number of characters for each sentence to SingleHitData
 SingleHitData<-cbind(SingleHitData,Chars)
 # Locate the rows which have SingleHitData sentences with less than or equal to 350 characters
@@ -117,9 +117,11 @@ SingleHitsCut<-SingleHitData[ShortSents,]
 
 # Search for the word "fossiliferous" in SingleHitsCut sentences 
 # NOTE: add space in front of "fossiliferous" in grep search so "unfossiliferous" is not returned as a match
-FossiliferousHits<-grep(" fossiliferous",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE)
+FossiliferousHits<-grep(" fossiliferous",SingleHitsCut[,"Sentences"], ignore.case=TRUE, perl=TRUE)
 # Search for the word "fossils" in SingleHitsCut sentences
-FossilsHits<-grep("fossils",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE)
+FossilsHits<-grep("fossils",SingleHitsCut[,"Sentences"], ignore.case=TRUE, perl=TRUE)
+  
+"overlain"? "overlie"? "overlies"?
 
 # Remove the overlap sentences between FossilsHits and FossiliferousHits
 # Remove rows in FossilslHits which also appear in FossiliferousHits
@@ -130,7 +132,6 @@ FossiliferousHits<-FossiliferousHits[which(!(FossiliferousHits%in%FossilsHits)==
 FossilSentences<-c(FossilsHits,FossiliferousHits)
 
 # Subset SingleHitsCut to only rows with fossil sentences
-FossilData<-SingleHitsCut[FossilSentences,]
-unique(SingleHitsCut[grep(" fossiliferous",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE),"UnitHitNames"])
-unique(SingleHitsCut[grep("fossils",SingleHitsCut[,"UnitSentences"], ignore.case=TRUE, perl=TRUE),"UnitHitNames"])
+FossilData<-unique(SingleHitsCut[FossilSentences,])
+
 
