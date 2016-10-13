@@ -121,7 +121,7 @@ FossiliferousHits<-grep(" fossiliferous",SingleHitsCut[,"Sentences"], ignore.cas
 # Search for the word "fossils" in SingleHitsCut sentences
 FossilsHits<-grep("fossils",SingleHitsCut[,"Sentences"], ignore.case=TRUE, perl=TRUE)
   
-# "overlain"? "overlie"? 
+# "overlain"? "overlie"? "underlies"? "underlain"?
 
 # Remove the overlap sentences between FossilsHits and FossiliferousHits
 # Remove rows in FossilslHits which also appear in FossiliferousHits
