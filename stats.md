@@ -10,6 +10,12 @@
 4,753
 ````
 
+#### Number of rows (sentences) in SubsetDeepDive:
+`nrow(SubsetDeepDive)`
+````R
+3,250,465
+````
+
 #### Initial number of unit name hits in SubsetDeepDive that are marine and sedimentary according to macrostrat, and unfossiliferous according to PBDB:
 
 `length(unlist(UnitHits))`
