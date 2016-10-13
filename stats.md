@@ -16,20 +16,29 @@
 3,250,465
 ````
 
-#### Initial number rows (sentences) with of unit name hits in SubsetDeepDive that are marine and sedimentary according to macrostrat, and unfossiliferous according to PBDB:
+#### Number of unique unit names that are: 
+#### 1) marine and sedimentary according to macrostrat
+#### 2) unfossiliferous according to PBDB 
+#### 3) occur in the tuples file provided with the original data
+
+`length(CandidateUnits)`
+````R
+4,715
+
+#### Initial number rows (sentences) in SubsetDeepDive with unit name hits of CandidateUnits.
 
 `length(unlist(UnitHits))`
 ````R
 31,175
 ````
-#### Number of rows (sentences) with unit name hits in SubsetDeepDive after removing sentences which contain more than one unit name:
+#### Number of rows (sentences) in SubsetDeepDive with unit name hits of CandidateUnits after removing sentences which contain more than one candidate unit name:
 
 `nrow(SingleHitData)`
 ````R
 25,648
 ````
 
-#### Number of rows (sentences) with unit name hits in SubsetDeepDive after removing sentences comprised of more than 350 characters:
+#### Number of rows (sentences) in SubsetDeepDive with unit name hits after removing sentences comprised of more than 350 characters:
 
 `nrow(SingleHitsCut)
 `
