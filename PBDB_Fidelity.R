@@ -225,15 +225,17 @@ StepTenDocs<-length(unique(SubsetDeepDive[FossilData[,"MatchLocation"],"docid"])
 # NUMBER OF UNIT MATCHES 
 StepTenUnits<-length(unique(FossilData[,"UnitNames"]))
 
-# STEP 11: Search for and remove words that create noise in the data ("overlain", "overlie", "overlies", "underlain", "underlie", and "underlies")
+# STEP 11: Search for and remove words that create noise in the data ("underlying","overlying","overlain", "overlie", "overlies", "underlain", "underlie", and "underlies")
 # NOTE: removing "underlie" and "overlie" should also get rid of "underlies" and "overlies"
 Overlain<-grep("overlain",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
 Overlie<-grep("overlie",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
 Underlain<-grep("underlain",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
 Underlie<-grep("underlie",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
+Underlying<-grep("underlying",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
+Overlying<-grep("overlying",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
   
 # Combine all of the noisy rows (sentences) into one vector 
-NoisySentences<-c(Overlain,Overlie,Underlain,Underlie)
+NoisySentences<-c(Overlain,Overlie,Underlain,Underlie,Underlying,Overlying)
 
 # Remove noisy sentences from FossilData
 FinalFossilData<-FossilData[-NoisySentences,]
