@@ -32,19 +32,19 @@
 ```` 
 
 #### Initial number rows (sentences) in SubsetDeepDive with unit name hits of CandidateUnits:
-`length(unlist(UnitHits))`
+`length(unique(unlist(UnitHits)))`
 ````R
-31,175
+28,084
 ````
 
 #### Initial number unique unit names in SubsetDeepDive:
-`length(unique(names(UnitHits[which(sapply(UnitHits,length)>0)])))
+`length(unique(names(UnitHits[which(sapply(UnitHits,length)>0)])))`
 ````R
 1,914
 ````
 
 #### Number of rows (sentences) in SubsetDeepDive with unit name hits of CandidateUnits after removing sentences which contain more than one candidate unit name:
-`nrow(SingleHitData)`
+` length(unique(SingleHitData[,"MatchLocation"]))`
 ````R
 25,648
 ````
