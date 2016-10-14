@@ -4,7 +4,7 @@
 9,508
 ````
 
-#### Initial number of rpws: 
+#### Initial number of rows: 
 `nrow(DeepDiveData)`
 ````R
 5,978,379
