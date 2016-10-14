@@ -71,4 +71,4 @@ Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matche
 Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matches
  ------------ | ------------ | ------------
 `length(unique(SubsetDeepDive[FinalFossilData[,"MatchLocation"],"docid"]))` | `length(unique(FinalFossilData[,"MatchLocation"]))` | `length(unique(FinalFossilData[,"UnitNames"]))`
-````428```` | ````737```` | ````236````
+````421```` | ````721```` | ````227````
