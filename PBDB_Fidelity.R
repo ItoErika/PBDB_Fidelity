@@ -121,6 +121,8 @@ FossiliferousHits<-grep(" fossiliferous",SingleHitsCut[,"Sentences"], ignore.cas
 # Search for the word "fossils" in SingleHitsCut sentences
 FossilsHits<-grep("fossils",SingleHitsCut[,"Sentences"], ignore.case=TRUE, perl=TRUE)
   
+
+  
 # "overlain"? "overlie"? "underlies"? "underlain"?
 
 # Remove the overlap sentences between FossilsHits and FossiliferousHits
@@ -134,4 +136,15 @@ FossilSentences<-c(FossilsHits,FossiliferousHits)
 # Subset SingleHitsCut to only rows with fossil sentences
 FossilData<-unique(SingleHitsCut[FossilSentences,])
 
+# Search for and remove words that create noise in the data ("overlain", "overlie", "overlies", "underlain", "underlie", and "underlies")
+# NOTE: removing "underlie" and "overlie" should also get rid of "underlies" and "overlies"
+Overlain<-grep("overlain",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
+Overlie<-grep("overlie",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
+Underlain<-grep("underlain",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
+Underlie<-grep("underlie",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRUE)
+  
+# Combine all of the noisy rows (sentences) into one vector 
+NoisySentences<-c(Overlain,Overlie,Underlain,Underlie)
 
+# Remove noisy sentences from FossilData
+FossilData<-FossilData[-NoisySentences,]
