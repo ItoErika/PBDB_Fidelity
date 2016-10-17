@@ -27,6 +27,10 @@ StepOneUnits<-"NA"
 StepOneTuples<-"NA"
 
 # STEP TWO: Load strat-name dictionary and docid tuples from GeoDeepDive
+
+# IF QUERYING FROM POSTGRES
+#DocUnitTuples<-dbGetQuery(Connection,"SELECT * FROM pbdb_fidelity.doc_terms")
+
 DocUnitTuples<-fread("~/Documents/DeepDive/PBDB_Fidelity/strat_pbdb_overlap 2/strat_overlap_doc_terms",header=FALSE)
 DocUnitTuples<-as.matrix(DocUnitTuples)
 # Assign column names to DocUnitTuples matrix
