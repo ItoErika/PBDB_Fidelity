@@ -65,7 +65,7 @@ Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matche
 Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matches
  ------------ | ------------ | ------------
 `length(unique(SubsetDeepDive[FossilData[,"MatchLocation"],"docid"]))` | `length(unique(FossilData[,"MatchLocation"]))` | `length(unique(FossilData[,"UnitNames"]))`
-````432```` | ````744```` | ````238````
+````435```` | ````749```` | ````241````
 
 ### STEP 11: Remove words that create noise in final results ("overlying", "overlain" "overlie", "overlies", "underlying", "underlain", "underlie", and "underlies").
 Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matches
