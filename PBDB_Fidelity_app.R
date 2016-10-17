@@ -262,16 +262,16 @@ Overlying<-grep("overlying",FossilData[,"Sentences"], ignore.case=TRUE, perl=TRU
 NoisySentences<-c(Overlain,Overlie,Underlain,Underlie,Underlying,Overlying)
 
 # Remove noisy sentences from FossilData
-FinalFossilData<-FossilData[-NoisySentences,]
-
+FidelityData<-FossilData[-NoisySentences,]
+  
 # RECORD STATS
 StepElevenDescription<-"Remove sentences with noisy words"
 # NUMBER OF DOCUMENTS OF INTEREST 
-StepElevenDocs<-length(unique(SubsetDeepDive[FinalFossilData[,"MatchLocation"],"docid"]))
+StepElevenDocs<-length(unique(SubsetDeepDive[FidelityData[,"MatchLocation"],"docid"]))
 # NUMBER OF UNIQUE ROWS FROM SUBSETDEEPDIVE
-StepElevenRows<-length(unique(FinalFossilData[,"MatchLocation"]))
+StepElevenRows<-length(unique(FidelityData[,"MatchLocation"]))
 # NUMBER OF UNIT MATCHES 
-StepElevenUnits<-length(unique(FinalFossilData[,"UnitNames"]))
+StepElevenUnits<-length(unique(FidelityData[,"UnitNames"]))
 StepElevenTuples<-"NA"
     
 # Return stats table 
