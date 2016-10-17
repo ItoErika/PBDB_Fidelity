@@ -58,8 +58,8 @@ Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matche
 ### STEP 9: Eliminate rows/sentences that are more than 350 characters in length. 
 Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matches
  ------------ | ------------ | ------------
-`length(unique(SubsetDeepDive[UnitDataCut[,"MatchLocation"],"docid"]))` | `length(unique(UnitDataCut[,"MatchLocation"]))` | `length(unique(UnitDataCut[,"UnitNames"]))`
-````4,221```` | ````21,771```` | ````1,625````
+`length(unique(SubsetDeepDive[UnitDataCut[,"MatchLocation"],"docid"]))` | `length(UnitDataCut[,"MatchLocation"])` | `length(unique(UnitDataCut[,"UnitNames"]))`
+````4,228```` | ````21,926```` | ````1,628````
 
 ### STEP 10: Extract sentences which contain the word "fossil" or "fossiliferous". 
 Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matches
