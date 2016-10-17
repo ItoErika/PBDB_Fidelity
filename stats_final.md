@@ -52,7 +52,7 @@ Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matche
 ### STEP 8: Eliminate rows/sentences which contain Macrostrat unit names other than candidate units. 
 Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matches
  ------------ | ------------ | ------------
-`length(unique(SubsetDeepDive[UnitData[,"MatchLocation"],"docid"]))` | `length(unique(UnitData[,"MatchLocation"]))` | `length(unique(UnitData[,"UnitNames"]))`
+`length(unique(SubsetDeepDive[UnitData[,"MatchLocation"],"docid"]))` | `length(UnitData[,"MatchLocation"])` | `length(unique(UnitData[,"UnitNames"]))`
 ````4,447```` | ````24,804```` | ````1,683````
 
 ### STEP 9: Eliminate rows/sentences that are more than 350 characters in length. 
