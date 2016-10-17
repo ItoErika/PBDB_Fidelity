@@ -59,16 +59,16 @@ Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matche
 Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matches
  ------------ | ------------ | ------------
 `length(unique(SubsetDeepDive[UnitDataCut[,"MatchLocation"],"docid"]))` | `length(UnitDataCut[,"MatchLocation"])` | `length(unique(UnitDataCut[,"UnitNames"]))`
-````4,228```` | ````21,926```` | ````1,628````
+````4,221```` | ````21,771```` | ````1,625````
 
 ### STEP 10: Extract sentences which contain the word "fossil" or "fossiliferous". 
 Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matches
  ------------ | ------------ | ------------
 `length(unique(SubsetDeepDive[FossilData[,"MatchLocation"],"docid"]))` | `length(unique(FossilData[,"MatchLocation"]))` | `length(unique(FossilData[,"UnitNames"]))`
-````435```` | ````749```` | ````241````
+````432```` | ````744```` | ````238````
 
 ### STEP 11: Remove words that create noise in final results ("overlying", "overlain" "overlie", "overlies", "underlying", "underlain", "underlie", and "underlies").
 Number of Documents | Number or Rows/Sentences | Number of Candidate Unit Matches
  ------------ | ------------ | ------------
 `length(unique(SubsetDeepDive[FinalFossilData[,"MatchLocation"],"docid"]))` | `length(unique(FinalFossilData[,"MatchLocation"]))` | `length(unique(FinalFossilData[,"UnitNames"]))`
-````423```` | ````724```` | ````229````
+````421```` | ````721```` | ````227````
