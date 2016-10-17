@@ -247,7 +247,7 @@ StepTenDocs<-length(unique(SubsetDeepDive[FossilData[,"MatchLocation"],"docid"])
 StepTenRows<-length(unique(FossilData[,"MatchLocation"]))
 # NUMBER OF UNIT MATCHES 
 StepTenUnits<-length(unique(FossilData[,"UnitNames"]))
-StepTenTuple<-"NA"
+StepTenTuples<-"NA"
     
 # STEP 11: Search for and remove words that create noise in the data ("underlying","overlying","overlain", "overlie", "overlies", "underlain", "underlie", and "underlies")
 # NOTE: removing "underlie" and "overlie" should also get rid of "underlies" and "overlies"
